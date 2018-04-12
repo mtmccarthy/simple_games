@@ -1,0 +1,6 @@
+[package]
+name = "tiktaktoe"
+version = "0.1.0"
+authors = ["Matt McCarthy <mtmccarthy@wpi.edu>"]
+
+[dependencies]
