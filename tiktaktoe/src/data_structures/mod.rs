@@ -1,5 +1,5 @@
-mod GameState;
-mod Player;
-mod Board;
-mod Tile;
-mod PlayerToken;
+pub mod GameState;
+pub mod Player;
+pub mod Board;
+pub mod Tile;
+pub mod PlayerToken;

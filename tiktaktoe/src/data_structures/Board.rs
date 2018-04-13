@@ -3,7 +3,7 @@ use data_structures::PlayerToken::PlayerToken;
 
 #[derive(Debug, Clone)]
 pub struct Board {
-    board_state: Vec<Vec<Tile>>
+    pub board_state: Vec<Vec<Tile>>
 }
 /**
 Initializes an empty 3x3 board

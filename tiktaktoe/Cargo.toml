@@ -3,4 +3,14 @@ name = "tiktaktoe"
 version = "0.1.0"
 authors = ["Matt McCarthy <mtmccarthy@wpi.edu>"]
 
+[lib]
+name = "mylib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "mybin"
+path = "src/bin/bin.rs"
+
 [dependencies]
+
+

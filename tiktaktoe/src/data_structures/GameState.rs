@@ -3,15 +3,44 @@ use data_structures::Board::Board;
 use data_structures::Board::init_board;
 use data_structures::PlayerToken::PlayerToken;
 use data_structures::Board::place_token_board;
+use std::fmt;
+use std::fmt::Display;
+use data_structures::Tile::Tile;
 
 #[derive(Debug, Clone, PartialEq)]
-struct GameState {
+pub struct GameState {
     players: (Player, Player),
     board: Board,
     turnNum: usize
 }
 
-fn init_game_state() -> GameState {
+impl Display for GameState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Player 1 is X. Player 2 is O\n");
+        write!(f, "Turn Number: {}\n",  self.turnNum);
+        for row in &self.board.board_state {
+            fmt_row(f, &row);
+        }
+        write!(f, "")
+    }
+
+}
+
+fn fmt_row(f: &mut fmt::Formatter, row: &Vec<Tile>) {
+    let mut row_display_line: String = String::new();
+    for tile in row {
+        match tile.token {
+            PlayerToken::XToken => row_display_line += "|X",
+            PlayerToken::OToken => row_display_line += "|O",
+            PlayerToken::NoToken => row_display_line += "| ",
+        };
+    }
+    row_display_line += "|\n";
+    write!(f, "{}", row_display_line);
+}
+
+
+pub fn init_game_state() -> GameState {
     return GameState {
         players: (Player, Player),
         board: init_board(),
@@ -19,7 +48,7 @@ fn init_game_state() -> GameState {
     }
 }
 
-fn place_token(gs: &GameState, token: PlayerToken, row_col: (usize, usize)) -> Result<GameState, &'static str> {
+pub fn place_token(gs: &GameState, token: PlayerToken, row_col: (usize, usize)) -> Result<GameState, &'static str> {
     let new_board = match place_token_board(&gs.board, token, row_col) {
         Ok(board) => board,
         Err(_) => return Err("There was an issue placing the token on the board")
@@ -56,5 +85,11 @@ mod tests {
         assert_eq!(mt_board, init_game_state.board);
         assert_eq!(expected_board, update_game_state.board);
 
+    }
+
+    #[test]
+    fn test_display_gs() {
+
+        assert!(true)
     }
 }
