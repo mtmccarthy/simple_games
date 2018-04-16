@@ -1,6 +1,6 @@
 use data_structures::PlayerToken::PlayerToken;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct Tile {
     pub token: PlayerToken
 }
