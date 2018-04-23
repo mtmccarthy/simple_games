@@ -4,6 +4,9 @@
 
 `git clone https://github.com/mtmccarthy/simple_games.git`
 
+#### Install Rust and Cargo
+`https://doc.rust-lang.org/cargo/getting-started/installation.html`
+
 ## How to Play
 
 #### TikTakToe
