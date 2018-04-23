@@ -12,7 +12,7 @@
 
 `cargo run`
 
-######Player 1 places the X token while Player 2 places the O token.
-######To place a token enter a row-column pair:
+Player 1 places the X token while Player 2 places the O token.
+To place a token enter a row-column pair:
 
-######i.e. 0 0 => Place a token on the upper left most tile while 1 2 is the middle row, leftmost tile.
+i.e. 0 0 => Place a token on the upper left most tile while 1 2 is the middle row, leftmost tile.
