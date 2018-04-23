@@ -61,7 +61,7 @@ pub fn place_token(gs: GameState, token: &PlayerToken, row_col: (usize, usize)) 
     })
 }
 
-pub fn is_game_over(gs: GameState, dst: (usize, usize), token: &PlayerToken) -> bool{
+pub fn is_game_over(gs: GameState, token: &PlayerToken, dst: (usize, usize)) -> bool{
     let maybe_new_gs = place_token(gs, token, dst);
 
     match maybe_new_gs {
@@ -88,6 +88,7 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
     let test_row_board = &board.board_state.clone();
     for row in test_row_board {
         let row_win = row.iter().fold(true, &victory_condition);
+        println!("Row win {}", row_win);
         if row_win {
             return true;
         }
@@ -103,6 +104,7 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
     let test_col_board = &board.board_state.clone();
     for col in cols {
         let col_win = col.iter().fold(true, &victory_condition);
+        println!("Col win {}", col_win);
         if col_win {
             return true;
         }
@@ -114,11 +116,11 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
     let mut is_cross1_win = true;
     let mut test_cross1_board = &board.board_state.clone();
     for x in 0..*rows {
-
+        is_cross1_win &= test_cross1_board[row_num][col_num].token.clone() == *token;
         row_num += 1;
         col_num += 1;
     }
-
+    println!("Cross1 win {}", is_cross1_win);
     if is_cross1_win {
         return true;
     }
@@ -126,15 +128,15 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
 
     let mut is_cross2_win = true;
     let mut test_cross2_board = &board.board_state.clone();
-    row_num -= rows.clone();
+    row_num = 0;
     col_num = rows.clone();
     for x in 0..*rows {
-        is_cross2_win &= test_cross2_board[row_num][col_num].token.clone() == *token;
-
-        row_num -= 1;
         col_num -= 1;
-    }
+        is_cross2_win &= test_cross2_board[row_num][col_num].token.clone() == *token;
+        row_num += 1;
 
+    }
+    println!("Cross2 win {}", is_cross2_win);
     if is_cross2_win {
         return true;
     }
@@ -217,5 +219,13 @@ mod tests {
         gs.board.board_state = cross2_win;
         assert_eq!(true, is_victory(gs, &PlayerToken::XToken));
 
+        let only_one_square = vec![
+            vec![x_tile.clone(), no_tile.clone(), no_tile.clone()],
+            vec![no_tile.clone(), x_tile.clone(), no_tile.clone()],
+            vec![no_tile.clone(), x_tile.clone(), no_tile.clone()]
+        ];
+        let mut gs = init_game_state();
+        gs.board.board_state = only_one_square;
+        assert_eq!(false, is_victory(gs, &PlayerToken::XToken))
     }
 }
