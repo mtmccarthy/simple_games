@@ -11,7 +11,7 @@ use data_structures::Tile::Tile;
 pub struct GameState {
     players: (Player, Player),
     pub board: Board,
-    turn_num: usize
+    pub turn_num: usize
 }
 
 impl Display for GameState {
