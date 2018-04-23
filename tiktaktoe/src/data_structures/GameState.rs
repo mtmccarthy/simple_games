@@ -21,7 +21,9 @@ impl Display for GameState {
         for row in &self.board.board_state {
             fmt_row(f, &row);
         }
+        println!();
         write!(f, "")
+
     }
 
 }
@@ -51,7 +53,7 @@ pub fn init_game_state() -> GameState {
 pub fn place_token(gs: GameState, token: &PlayerToken, row_col: (usize, usize)) -> Result<GameState, &'static str> {
     let new_board = match place_token_board(&gs.board, token.clone(), row_col) {
         Ok(board) => board,
-        Err(_) => return Err("There was an issue placing the token on the board")
+        Err(_) => return Err("There was an issue placing the token on the board\n")
     };
     return Ok(
         GameState {
@@ -71,7 +73,6 @@ pub fn is_game_over(gs: GameState, token: &PlayerToken, dst: (usize, usize)) -> 
 }
 
 pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
-    print!("{}", &gs);
     let board = gs.board;
     //Check row wins
 
@@ -88,7 +89,6 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
     let test_row_board = &board.board_state.clone();
     for row in test_row_board {
         let row_win = row.iter().fold(true, &victory_condition);
-        println!("Row win {}", row_win);
         if row_win {
             return true;
         }
@@ -104,7 +104,6 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
     let test_col_board = &board.board_state.clone();
     for col in cols {
         let col_win = col.iter().fold(true, &victory_condition);
-        println!("Col win {}", col_win);
         if col_win {
             return true;
         }
@@ -120,7 +119,6 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
         row_num += 1;
         col_num += 1;
     }
-    println!("Cross1 win {}", is_cross1_win);
     if is_cross1_win {
         return true;
     }
@@ -136,7 +134,6 @@ pub fn is_victory(gs: GameState, token: &PlayerToken) -> bool {
         row_num += 1;
 
     }
-    println!("Cross2 win {}", is_cross2_win);
     if is_cross2_win {
         return true;
     }

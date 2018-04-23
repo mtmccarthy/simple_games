@@ -26,6 +26,10 @@ pub fn place_token_board(board: &Board, token: PlayerToken, row_col: (usize, usi
     let row = row_col.0;
     let col = row_col.1;
 
+    if row >= 3 || row < 0 || col >= 3 || col < 0 {
+        return Err("Row or column is out of bounds of the board. Keep them between 0 and 2 inclusive.\n")
+    }
+
     let mut new_board = board.clone();
     let mut tile = new_board.board_state[row][col].clone();
     match tile.update_tile(token) {

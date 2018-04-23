@@ -12,5 +12,6 @@ name = "mybin"
 path = "src/bin/bin.rs"
 
 [dependencies]
+regex = "0.2"
 
 

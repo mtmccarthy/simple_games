@@ -28,8 +28,6 @@ pub fn test() {
         }
         print!("{}", current_gs);
         let row_col = wait_for_input();
-        print!("\n{} {}", row_col.0, row_col.1);
-
         let player_token = match is_player_one_turn {
             true => PlayerToken::XToken,
             false => PlayerToken::OToken
@@ -37,7 +35,20 @@ pub fn test() {
 
         match place_token(current_gs.clone(), &player_token, row_col) {
             Ok(gs) => {
-                current_gs = gs
+                if is_game_over(current_gs.clone(), &player_token, row_col) {
+                    current_gs = gs;
+                    let player_to_congrats = match is_player_one_turn {
+                        true => "Player 1",
+                        false => "Player 2"
+                    };
+                    println!("Congratulations to {}", player_to_congrats);
+                    println!("{}", current_gs);
+                    return;
+                }
+                else {
+                    current_gs = gs;
+                }
+
             },
             Err(_) => println!("Not a valid move, please try again.")
         }
@@ -56,12 +67,12 @@ fn wait_for_input() -> (usize, usize){
             Ok(_) =>
                 match parse_input(&*input) {
                     Ok(result) => return result,
-                    Err(msg) => println!("Could not be parsed. Please try again: {}", msg)
+                    Err(msg) => println!("Could not be parsed. Please try again: {}\n", msg)
                 }
-            Err(_) => println!("Please try again")
+            Err(_) => println!("Please try again\n")
         }
 
-        println!("You typed: {}", input.trim());
+        println!("You typed: {}\n", input.trim());
 
     }
 
@@ -79,16 +90,16 @@ fn parse_input(input: &str) -> Result<(usize, usize), String> {
             Some(groups) =>{
                 let row = match groups[1].parse::<usize>(){
                     Ok(row) => row,
-                    Err(msg) => return Err(format!("Cannot parse row because {}", msg ))
+                    Err(msg) => return Err(format!("Cannot parse row because {}\n", msg ))
                 };
                 let col = match groups[2].parse::<usize>(){
                     Ok(col) => col,
-                    Err(msg) => return Err(format!("Cannot parse column because {}", msg ))
+                    Err(msg) => return Err(format!("Cannot parse column because {}\n", msg ))
                 };
                 return Ok((row, col))
             },
 
-            None => return Err(format!("Something went wrong with the grouping of the regex"))
+            None => return Err(format!("Something went wrong with the grouping of the regex\n"))
         };
 
     }
